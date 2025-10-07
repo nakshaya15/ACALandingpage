@@ -34,6 +34,9 @@ const LandingPage: React.FC = () => {
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  
+  // 1. New state for fullscreen video source
+  const [fullscreenVideoSrc, setFullscreenVideoSrc] = useState<string | null>(null);
 
   const fileToBase64 = (file: File): Promise<string> =>
     new Promise((resolve, reject) => {
@@ -105,6 +108,16 @@ const LandingPage: React.FC = () => {
       setLoading(false);
     }
   };
+  
+  // 2. Function to open the fullscreen view
+  const openFullscreenVideo = (src: string) => {
+    setFullscreenVideoSrc(src);
+  };
+  
+  // 3. Function to close the fullscreen view
+  const closeFullscreenVideo = () => {
+    setFullscreenVideoSrc(null);
+  };
 
   const videoAds: VideoAd[] = [
     { id: 1, src: "/video1.mp4" },
@@ -125,7 +138,7 @@ const LandingPage: React.FC = () => {
     <div className="min-h-screen bg-gray-900 text-gray-100">
       {/* Header */}
       <nav className="bg-gray-800 shadow-md p-4 flex justify-center items-center">
-        <div className="text-2xl font-bold text-indigo-500">AKSHAYA CREATIVE ADS</div>
+        <div className="text-2xl font-bold text-indigo-500">AKSHAYA  CREATIVE  ADS</div>
       </nav>
 
       <main className="p-6 space-y-12">
@@ -134,8 +147,18 @@ const LandingPage: React.FC = () => {
           <h2 className="text-2xl font-semibold mb-4">Our ACA Video Ads</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {videoAds.map((video) => (
-              <div key={video.id} className="bg-gray-800 shadow rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105">
-                <video src={video.src} autoPlay loop muted className="w-full h-48 object-cover" />
+              <div
+                key={video.id}
+                className="bg-gray-800 shadow rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 cursor-pointer"
+                onClick={() => openFullscreenVideo(video.src)}
+              >
+                <video
+                  src={video.src}
+                  autoPlay
+                  loop
+                  muted
+                  className="w-full h-48 object-cover pointer-events-none"
+                />
               </div>
             ))}
           </div>
@@ -281,6 +304,34 @@ const LandingPage: React.FC = () => {
                 OK
               </button>
             </div>
+          </div>
+        </div>
+      )}
+      
+      {/* 4. Fullscreen Video Modal/Lightbox */}
+      {fullscreenVideoSrc && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center p-4 z-50"
+          onClick={closeFullscreenVideo} // Close when clicking outside the video
+        >
+          <div className="relative max-w-4xl max-h-full w-full h-full" onClick={(e) => e.stopPropagation()}>
+            {/* Close button */}
+            <button
+              onClick={closeFullscreenVideo}
+              className="absolute top-4 right-4 text-white text-3xl font-bold z-50 p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition"
+              aria-label="Close video"
+            >
+              &times;
+            </button>
+            
+            {/* The actual video player */}
+            <video
+              src={fullscreenVideoSrc}
+              controls // Add controls for play/pause, volume, etc.
+              autoPlay // Start playing automatically
+              loop
+              className="w-full h-full object-contain" // object-contain ensures the video fits within the modal without cropping
+            />
           </div>
         </div>
       )}
