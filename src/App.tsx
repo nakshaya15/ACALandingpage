@@ -151,7 +151,7 @@ const LandingPage: React.FC = () => {
     <div className="min-h-screen bg-gray-900 text-gray-100">
       {/* Header */}
       <nav className="bg-gray-800 shadow-md p-4 flex justify-center items-center">
-        <div className="text-2xl font-bold text-indigo-500">AKSHAYA  CREATIVE  ADS</div>
+        <div className="text-2xl font-bold text-indigo-500">AKSHAYA CREATIVE ADS</div>
       </nav>
 
       <main className="p-6 space-y-12">
@@ -292,15 +292,26 @@ const LandingPage: React.FC = () => {
             </>
           )}
 
-          {/* Offer Details - MODIFIED */}
-          <div className="mt-6 bg-white py-4 rounded-xl shadow-lg text-center border-2 border-indigo-600 max-w-sm mx-auto">
-            <h1 className="font-bold text-2xl text-indigo-700">Our Offer Price:</h1>
-            <p className="text-gray-900 mt-4">5 Hollywood Style Video Ads</p>
-            <p className="text-gray-900">5 Hollywood Style Posters</p>
-            <p className="mt-4 font-bold text-2xl text-red-600 animate-pulse">Just: 15K / month</p>
-            <p className="text-gray-900 mt-2">Contact: 824-7707-851</p>
-            {/* NEW LINE ADDED HERE */}
-            <p className="text-gray-900 mt-1">Website: www.akshayacreativeads.com</p>
+          {/* Offer Details - STYLISH UPDATE */}
+          <div className="mt-8 bg-gradient-to-r from-indigo-600 to-purple-600 p-6 rounded-xl shadow-2xl text-center max-w-sm mx-auto transform hover:scale-[1.02] transition-transform duration-300 border-4 border-yellow-300">
+            <h1 className="font-extrabold text-3xl text-yellow-300 mb-4 uppercase tracking-wider">
+              Limited Time Offer!
+            </h1>
+            <div className="space-y-2 text-white text-lg font-medium">
+              <p className="flex items-center justify-center">
+                <span className="text-yellow-300 mr-2">⭐</span> 5 Hollywood Style Video Ads
+              </p>
+              <p className="flex items-center justify-center">
+                <span className="text-yellow-300 mr-2">⭐</span> 5 Hollywood Style Posters
+              </p>
+            </div>
+            <p className="mt-6 font-black text-4xl text-white bg-red-600 p-2 rounded-lg inline-block shadow-lg transform rotate-[-2deg] animate-pulse">
+              Just: 15K / month
+            </p>
+            <div className="mt-6 text-yellow-300 text-base font-semibold space-y-1">
+              <p>Contact: 824-7707-851</p>
+              <p>Website: www.akshayacreativeads.com</p>
+            </div>
           </div>
         </section>
       </main>
