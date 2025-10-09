@@ -34,9 +34,12 @@ const LandingPage: React.FC = () => {
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  
+
   // 1. New state for fullscreen video source
   const [fullscreenVideoSrc, setFullscreenVideoSrc] = useState<string | null>(null);
+
+  // 1. NEW state for fullscreen image source
+  const [fullscreenImageSrc, setFullscreenImageSrc] = useState<string | null>(null);
 
   const fileToBase64 = (file: File): Promise<string> =>
     new Promise((resolve, reject) => {
@@ -108,15 +111,25 @@ const LandingPage: React.FC = () => {
       setLoading(false);
     }
   };
-  
-  // 2. Function to open the fullscreen view
+
+  // 2. Function to open the fullscreen video view
   const openFullscreenVideo = (src: string) => {
     setFullscreenVideoSrc(src);
   };
-  
-  // 3. Function to close the fullscreen view
+
+  // 3. Function to close the fullscreen video view
   const closeFullscreenVideo = () => {
     setFullscreenVideoSrc(null);
+  };
+
+  // 2. NEW Function to open the fullscreen image view
+  const openFullscreenImage = (src: string) => {
+    setFullscreenImageSrc(src);
+  };
+
+  // 3. NEW Function to close the fullscreen image view
+  const closeFullscreenImage = () => {
+    setFullscreenImageSrc(null);
   };
 
   const videoAds: VideoAd[] = [
@@ -138,7 +151,7 @@ const LandingPage: React.FC = () => {
     <div className="min-h-screen bg-gray-900 text-gray-100">
       {/* Header */}
       <nav className="bg-gray-800 shadow-md p-4 flex justify-center items-center">
-        <div className="text-2xl font-bold text-indigo-500">AKSHAYA  CREATIVE  ADS</div>
+        <div className="text-2xl font-bold text-indigo-500">AKSHAYA  CREATIVE  ADS</div>
       </nav>
 
       <main className="p-6 space-y-12">
@@ -164,12 +177,16 @@ const LandingPage: React.FC = () => {
           </div>
         </section>
 
-        {/* Posters Section */}
+        {/* Posters Section - UPDATED TO BE CLICKABLE */}
         <section>
           <h2 className="text-2xl font-semibold mb-4">Our Posters</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {posters.map((poster) => (
-              <div key={poster.id} className="bg-gray-800 shadow rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105">
+              <div
+                key={poster.id}
+                className="bg-gray-800 shadow rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 cursor-pointer"
+                onClick={() => openFullscreenImage(poster.image)} // <--- NEW onClick handler
+              >
                 <img
                   src={poster.image}
                   alt=""
@@ -275,13 +292,15 @@ const LandingPage: React.FC = () => {
             </>
           )}
 
-          {/* Offer Details */}
+          {/* Offer Details - MODIFIED */}
           <div className="mt-6 bg-white py-4 rounded-xl shadow-lg text-center border-2 border-indigo-600 max-w-sm mx-auto">
             <h1 className="font-bold text-2xl text-indigo-700">Our Offer Price:</h1>
             <p className="text-gray-900 mt-4">5 Hollywood Style Video Ads</p>
             <p className="text-gray-900">5 Hollywood Style Posters</p>
             <p className="mt-4 font-bold text-2xl text-red-600 animate-pulse">Just: 15K / month</p>
             <p className="text-gray-900 mt-2">Contact: 824-7707-851</p>
+            {/* NEW LINE ADDED HERE */}
+            <p className="text-gray-900 mt-1">Website: www.akshayacreativeads.com</p>
           </div>
         </section>
       </main>
@@ -307,8 +326,8 @@ const LandingPage: React.FC = () => {
           </div>
         </div>
       )}
-      
-      {/* 4. Fullscreen Video Modal/Lightbox */}
+
+      {/* Fullscreen Video Modal/Lightbox */}
       {fullscreenVideoSrc && (
         <div
           className="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center p-4 z-50"
@@ -323,7 +342,7 @@ const LandingPage: React.FC = () => {
             >
               &times;
             </button>
-            
+
             {/* The actual video player */}
             <video
               src={fullscreenVideoSrc}
@@ -331,6 +350,32 @@ const LandingPage: React.FC = () => {
               autoPlay // Start playing automatically
               loop
               className="w-full h-full object-contain" // object-contain ensures the video fits within the modal without cropping
+            />
+          </div>
+        </div>
+      )}
+
+      {/* NEW: Fullscreen Image Modal/Lightbox */}
+      {fullscreenImageSrc && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center p-4 z-50"
+          onClick={closeFullscreenImage} // Close when clicking outside the image
+        >
+          <div className="relative max-w-6xl max-h-full" onClick={(e) => e.stopPropagation()}>
+            {/* Close button */}
+            <button
+              onClick={closeFullscreenImage}
+              className="absolute top-4 right-4 text-white text-3xl font-bold z-50 p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition"
+              aria-label="Close image"
+            >
+              &times;
+            </button>
+
+            {/* The actual image */}
+            <img
+              src={fullscreenImageSrc}
+              alt="Full-screen preview"
+              className="max-w-full max-h-screen object-contain" // object-contain ensures the image fits within the modal
             />
           </div>
         </div>
